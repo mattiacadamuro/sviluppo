@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>aggiungi un elemento</h1>
+
+<label for="name">name:</label>
+<input type="text" id="name" name="name"><br><br>
+<label for="name">prezzo:</label>
+<input type="text" id="prezzo" name="prezzo"><br><br>
+<button type="button" onclick="loadDoc()">Aggiungi</button>
+
+<p id="demo"></p>
+
+<script>
+  function loadDoc() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("demo").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("POST", "/create", true);
+    xhttp.setRequestHeader("name", document.getElementById("name").value);
+    xhttp.setRequestHeader("prezzo", document.getElementById("prezzo").value);
+    xhttp.send();
+  }
+  </script>
+
+</body>
+</html>
