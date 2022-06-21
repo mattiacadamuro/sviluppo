@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>bel titolo</h1>
+
+        <p id="mod">
+            <button type="button" onclick="vis()">Visualizza</button><br><br>
+            <button type="button" onclick="loadDoc(0)">Aggiungi</button><br><br>
+            <button type="button" onclick="loadDoc(1)">Elimina</button><br><br>
+            <button type="button" onclick="loadDoc(2)">Modifica</button><br><br>
+        </p>
+        
+        <p>
+            <button type="button" onclick="loadDoc(3)">indrio</button>
+        </p>
+        
+        <p id="res"></p>
+
+        <script>
+            //non sapevo dove mettere le diverse "pagine" su cui lavorare
+            let a = ["<h1>Aggiungi un elemento</h1><label>name:</label><input type=\"text\" id=\"name\"><br><br><label>prezzo:</label><input type=\"text\" id=\"prezzo\"><br><br><button type=\"button\" onclick=\"add()\">Aggiungi</button>",
+                    "<h1>Elimina un elemento</h1><label>id:</label><input type=\"text\" id=\"id\"><br><br><button type=\"button\" onclick=\"dele()\">Elimina</button>",
+                    "<h1>Modifica un elemento</h1><label>id da modificare:</label><input type=\"text\" id=\"id\"><br><br><label>nuovo name:</label><input type=\"text\" id=\"name\"><br><br><label>nuovo prezzo:</label><input type=\"text\" id=\"prezzo\"><br><br><button type=\"button\" onclick=\"mod()\">Modifica</button>",
+                    "<button type=\"button\" onclick=\"vis()\">Visualizza</button><br><br><button type=\"button\" onclick=\"loadDoc(0)\">Aggiungi</button><br><br><button type=\"button\" onclick=\"loadDoc(1)\">Elimina</button><br><br><button type=\"button\" onclick=\"loadDoc(2)\">Modifica</button><br><br>"
+            ]
+            
+            //e con l'indice dell'array le richiamo per metterle sul primo <p>
+            function loadDoc(x) {
+                    document.getElementById("mod").innerHTML = a[x];
+                    document.getElementById("res").innerHTML = "";
+            }
+
+            function add() {
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200)
+                  document.getElementById("res").innerHTML = this.responseText;
+              };
+              xhttp.open("POST", "/create", true);
+              xhttp.setRequestHeader("name", document.getElementById("name").value);
+              xhttp.setRequestHeader("prezzo", document.getElementById("prezzo").value);
+              xhttp.send();
+            }
+
+            function dele() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200)
+                    document.getElementById("res").innerHTML = this.responseText;
+                };
+                xhttp.open("DELETE", "/" + document.getElementById("id").value, true);
+                xhttp.send();
+            }
+
+            function mod() {
+                let id = document.getElementById("id").value
+                let name = document.getElementById("name").value
+                let prezzo = document.getElementById("prezzo").value
+                
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200)
+                    document.getElementById("res").innerHTML = this.responseText;
+                };
+                xhttp.open("PUT", "/edit/" + id + "?name=" + name + "&prezzo=" + prezzo, true);
+                xhttp.send();
+            }
+
+            function vis() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200)
+                    document.getElementById("res").innerHTML = this.responseText;
+                };
+                xhttp.open("GET", "/", true);
+                xhttp.send();
+            }
+        </script>
+    </body>
+</html>

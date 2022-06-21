@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 //app.use methods
 app.use(bodyParser.urlencoded({ extended: false }));
 
-//indenta giusto
+//database
 let prodotti = [{
     "ID":1,
     "name" : "patate",
@@ -16,10 +16,9 @@ let prodotti = [{
     "ID":2,
     "name" : "pere",
     "prezzo" : 30
-}
-]
+}]
 
-
+let nprodotti = 2 //ci sono già 2 prodotti del array
 
 //routes
 app.get("/add", function(req, res) {
@@ -30,36 +29,52 @@ app.get("/del", function(req, res) {
     res.sendFile(path.join(__dirname + '/delete.html'));
 });
 
+app.get("/mod", function(req, res) {
+    res.sendFile(path.join(__dirname + '/mod.html'));
+});
+
+app.get("/main", function(req, res) {
+    res.sendFile(path.join(__dirname + '/main.html'));
+});
+
+//non ha molto senso ma "ok"
 app.get("/ok", function(req,res){
     res.sendStatus(200)
 })
 
+//popola l'array con altri 25 elementi nominati dalla A alla Z con costo casuale
 app.get("/pop", function(req,res){
     for(let i = 0; i < 26; i++ ){
         let q = {
+            "ID" : nprodotti + 1,
             "name" : String.fromCharCode(i + 65),
             "prezzo" : Math.floor(Math.random() * 51)
         }
         prodotti.push(q)
+        nprodotti++ //incremento counter
     }
-    res.send("array popolato")
+    res.send("array populated")
 })
 
+//crea un prodotto con dei dati specifici
 app.post("/create", function(req,res){
-    const uName = req.headers['name'] // No header but use the body. See the documentation
+    const uName = req.headers['name']
     const uPrezzo = req.headers['prezzo']
     
     let prodotto = {
+        "ID" : nprodotti + 1,
         "name" : uName,
         "prezzo" : uPrezzo
     }
-    //create new product with new ID, increment every time the ID
+
     prodotti.push(prodotto)
-    res.send("elemento aggiunto")
+    nprodotti++ //incremento counter
+    res.send("element added")
 })
 
+//cancella un prodotto
 app.delete('/:id', function(req, res){
-    const id = req.query.id  // try to use :id (params) instead of query
+    let id = req.params.id
     
     if(id < prodotti.length){
         prodotti.splice(id,1)
@@ -68,25 +83,29 @@ app.delete('/:id', function(req, res){
         res.send("ID not found");
 })
 
+//restituisce tutto l'array
 app.get('/', (req, res) => {
     res.send(prodotti)
 })
 
+//edit specifico prodotto
 app.put('/edit/:id', (req, res) => {
     const id = req.params.id
     const nName = req.query.name
     const nPrezzo = req.query.prezzo
-    
+
     if(id < prodotti.length){
-        prodotti[id] = {
+        prodotti[id - 1] = {
+            "ID" : parseInt(id),
             "name" : nName,
             "prezzo" : nPrezzo 
         }
-        res.send("edit effettuato")
+        res.send("edited")
     }else
-        res.send("id non esistente")
+        res.send("ID not found")
 })
 
+//cose che non so
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
     console.log("Listening on " + port);
