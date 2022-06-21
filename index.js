@@ -1,11 +1,27 @@
+//require
 const express = require('express')
 const app = express()
+const path = require('path')
+const bodyParser = require("body-parser");
 
-var path = require('path')
-
-var bodyParser = require("body-parser");
+//app.use methods
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//indenta giusto
+let prodotti = [{
+    "ID":1,
+    "name" : "patate",
+    "prezzo" : 20
+},{
+    "ID":2,
+    "name" : "pere",
+    "prezzo" : 30
+}
+]
+
+
+
+//routes
 app.get("/add", function(req, res) {
     res.sendFile(path.join(__dirname + '/add.html'));
 });
@@ -13,21 +29,6 @@ app.get("/add", function(req, res) {
 app.get("/del", function(req, res) {
     res.sendFile(path.join(__dirname + '/delete.html'));
 });
-
-let a ={
-    "name" : "patate",
-    "prezzo" : 20
-}
-
-let b={
-    "name" : "pere",
-    "prezzo" : 30
-}
-
-let prodotti = []
-
-prodotti.push(a)
-prodotti.push(b)
 
 app.get("/ok", function(req,res){
     res.sendStatus(200)
@@ -45,26 +46,26 @@ app.get("/pop", function(req,res){
 })
 
 app.post("/create", function(req,res){
-    const uName = req.headers['name']
+    const uName = req.headers['name'] // No header but use the body. See the documentation
     const uPrezzo = req.headers['prezzo']
     
     let prodotto = {
         "name" : uName,
         "prezzo" : uPrezzo
     }
-
+    //create new product with new ID, increment every time the ID
     prodotti.push(prodotto)
     res.send("elemento aggiunto")
 })
 
-app.delete('/delete', function(req, res){
-    const id = req.query.id
+app.delete('/:id', function(req, res){
+    const id = req.query.id  // try to use :id (params) instead of query
     
     if(id < prodotti.length){
         prodotti.splice(id,1)
-        res.send("elemento cancellato")
+        res.send("element canceled")
     }else
-        res.send("id non esistente");
+        res.send("ID not found");
 })
 
 app.get('/', (req, res) => {
@@ -75,7 +76,7 @@ app.put('/edit/:id', (req, res) => {
     const id = req.params.id
     const nName = req.query.name
     const nPrezzo = req.query.prezzo
-
+    
     if(id < prodotti.length){
         prodotti[id] = {
             "name" : nName,
