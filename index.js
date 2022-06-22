@@ -4,6 +4,29 @@ const app = express()
 const path = require('path')
 const bodyParser = require("body-parser");
 
+const { Sequelize, DataTypes } = require('sequelize');
+
+const sequelize = new Sequelize('testprodotti', 'root', '', {
+    host: 'localhost',
+    dialect: 'mariadb'
+});
+
+
+const prodotto = sequelize.define('prodotto', {
+    // Model attributes are defined here
+    nome: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    prezzo: {
+      type: DataTypes.INTEGER
+      // allowNull defaults to true
+    }
+  }, {
+    tableName: 'prodotto',
+    timestamps: false
+});
+
 //app.use methods
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -60,14 +83,16 @@ app.get("/pop", function(req,res){
 app.post("/create", function(req,res){
     const uName = req.headers['name']
     const uPrezzo = req.headers['prezzo']
-    
-    let prodotto = {
+
+    prodotto.create({nome: "ananas", prezzo: "60" })
+
+    let uprodotto = {
         "ID" : nprodotti + 1,
         "name" : uName,
         "prezzo" : uPrezzo
     }
-
-    prodotti.push(prodotto)
+    
+    prodotti.push(uprodotto)
     nprodotti++ //incremento counter
     res.send("element added")
 })
