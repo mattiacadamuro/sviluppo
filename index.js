@@ -11,14 +11,18 @@ const sequelize = new Sequelize('testprodotti', 'root', '', {
 });
 
 //prodotto definition
+//try to use another page, where you define the schema and try to import it
 const prodotto = sequelize.define('prodotto', {
     // Model attributes are defined here
     id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
+        // it is better to explicitate
+       type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
     },
     nome: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING, //See the documentation, because you can set the max dimension STRING(50)
       allowNull: false
     },
     prezzo: {
@@ -27,7 +31,7 @@ const prodotto = sequelize.define('prodotto', {
     }
   }, {
     tableName: 'prodotto',
-    timestamps: false
+    timestamps: false // It is better to use the timestamp in db, because you can see when a certain entity is created or updated. Edit it
 });
 
 //app.use methods
@@ -56,13 +60,14 @@ app.get("/ok", function(req,res){
 })
 
 //crea un prodotto con dei dati specifici
-app.post("/create", function(req,res){
+app.post("/create", async function(req,res){
+    //Not use headers but use the body, so try with form in the html page
     const uName = req.headers['name']
     const uPrezzo = req.headers['prezzo']
 
-    prodotto.create({nome: uName, prezzo: uPrezzo })
+    let product=await prodotto.create({nome: uName, prezzo: uPrezzo })
 
-    res.send("element added")
+    res.send(product) //send back the product
 })
 
 //cancella un prodotto
@@ -85,7 +90,7 @@ app.get('/', async (req, res) => {
 })
 
 app.get('/:id', async (req, res) => {
-    const id = req.params.id
+    const id = Number(req.params.id) // better
 
     const rows= await prodotto.findAll({
         where: {
@@ -97,19 +102,35 @@ app.get('/:id', async (req, res) => {
 
 //edit specifico prodotto
 app.put('/edit/:id', async(req, res) => {
+    //Use the body to pass the informations
     const id = req.params.id
     const nName = req.query.name
     const nPrezzo = req.query.prezzo
-
+    
+    
+    
+    //ok
+    /*
     await prodotto.update({ nome : nName, prezzo : nPrezzo}, {
         where: {
             id : id
         }
     })
-    res.send("edited")
+    */
+    //You have to save the modification in db 
+    
+    
+    //another way 
+    let selectedproduct= await prodotto.findOne({where: { id : id}})
+    if(selectedproduct===null)
+        return res.send("not found")
+    selectedproduct.set({ nome : nName, prezzo : nPrezzo})
+    await selectedproduct.save(); //Important, otherwise you don't change the product status in db
+    
+    res.send(selectedproduct) //I send back the current product
 })
 
-//cose che non so
+//start application
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
     console.log("Listening on " + port);
