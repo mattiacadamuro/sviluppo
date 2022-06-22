@@ -11,4 +11,5 @@ All information have to be stored in database and managed by sequelize framework
 * GET /prodotto -> See all products
 * GET /prodotto/:id -> See product defined by ID
 * PUT /prodotto/:id -> update product defined by ID
+* DELETE /prodotto/:id -> delete product defined by ID
 
