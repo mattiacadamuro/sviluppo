@@ -11,9 +11,13 @@ const sequelize = new Sequelize('testprodotti', 'root', '', {
     dialect: 'mariadb'
 });
 
-
+// prodotto definition
 const prodotto = sequelize.define('prodotto', {
     // Model attributes are defined here
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     nome: {
       type: DataTypes.STRING,
       allowNull: false
@@ -30,6 +34,7 @@ const prodotto = sequelize.define('prodotto', {
 //app.use methods
 app.use(bodyParser.urlencoded({ extended: false }));
 
+/*
 //database
 let prodotti = [{
     "ID":1,
@@ -42,6 +47,7 @@ let prodotti = [{
 }]
 
 let nprodotti = 2 //ci sono già 2 prodotti del array
+*/
 
 //routes
 app.get("/add", function(req, res) {
@@ -109,8 +115,9 @@ app.delete('/:id', function(req, res){
 })
 
 //restituisce tutto l'array
-app.get('/', (req, res) => {
-    res.send(prodotti)
+app.get('/', async (req, res) => {
+    const rows= await prodotto.findAll();
+    res.send(rows)
 })
 
 //edit specifico prodotto
