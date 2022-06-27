@@ -4,38 +4,71 @@ const path = require('path')
 const bodyParser = require("body-parser");
 const { Sequelize, DataTypes } = require('sequelize');
 
-//connection to the database
+//app.use methods
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json({extended: false}));
+
+//connections to the database
 const sequelize = new Sequelize('testprodotti', 'root', '', {
     host: 'localhost',
     dialect: 'mariadb'
 });
 
+const sequelize1 = new Sequelize('persone', 'root', '', {
+    host: 'localhost',
+    dialect: 'mariadb'
+});
+
 //prodotto definition
-//try to use another page, where you define the schema and try to import it
 const prodotto = sequelize.define('prodotto', {
     // Model attributes are defined here
     id: {
-        // it is better to explicitate
-       type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true
+      type: DataTypes.INTEGER,
+      primaryKey: true,
     },
     nome: {
-      type: DataTypes.STRING, //See the documentation, because you can set the max dimension STRING(50)
+      type: DataTypes.STRING,
       allowNull: false
     },
     prezzo: {
       type: DataTypes.INTEGER,
       allowNull: false
     }
-  }, {
+}, {
     tableName: 'prodotto',
-    timestamps: false // It is better to use the timestamp in db, because you can see when a certain entity is created or updated. Edit it
+    timestamps: false
 });
 
-//app.use methods
-app.use(bodyParser.urlencoded({ extended: false }));
+//persona definition
+const persona = sequelize1.define('persona', {
+    // Model attributes are defined here
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+    },
+    nome: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    cognome: {
+        type: DataTypes.STRING,
+      allowNull: false
+    },
+    datanascita: {
+        type: DataTypes.DATE,
+      allowNull: false
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+      allowNull: false
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+      allowNull: false
+    }
+}, {
+    tableName: 'persona',
+});
 
 //routes
 app.get("/add", function(req, res) {
@@ -59,15 +92,15 @@ app.get("/ok", function(req,res){
     res.sendStatus(200)
 })
 
+
 //crea un prodotto con dei dati specifici
-app.post("/create", async function(req,res){
-    //Not use headers but use the body, so try with form in the html page
-    const uName = req.headers['name']
-    const uPrezzo = req.headers['prezzo']
+app.post("/create", function(req,res){
+    const uName = req.body.name
+    const uPrezzo = req.body.prezzo
 
-    let product=await prodotto.create({nome: uName, prezzo: uPrezzo })
+    prodotto.create({nome: uName, prezzo: uPrezzo })
 
-    res.send(product) //send back the product
+    res.send("element added")
 })
 
 //cancella un prodotto
@@ -84,53 +117,38 @@ app.delete('/:id', function(req, res){
 
 //restituisce tutto il db
 app.get('/', async (req, res) => {
-    console.log(await sequelize.query("SELECT MAX(ID) FROM prodotto"))
-    const rows = await prodotto.findAll();
-    res.send(rows)
+    const a = await sequelize.query("SELECT MAX(ID) FROM prodotto")
+    console.log(a[0])
+
+    res.send(await prodotto.findAll())
 })
 
 app.get('/:id', async (req, res) => {
-    const id = Number(req.params.id) // better
+    const id = req.params.id
 
     const rows= await prodotto.findAll({
         where: {
             ID : id
         }
-      })
+    })
     res.send(rows)
 })
 
 //edit specifico prodotto
 app.put('/edit/:id', async(req, res) => {
-    //Use the body to pass the informations
     const id = req.params.id
     const nName = req.query.name
     const nPrezzo = req.query.prezzo
-    
-    
-    
-    //ok
-    /*
+
     await prodotto.update({ nome : nName, prezzo : nPrezzo}, {
         where: {
             id : id
         }
     })
-    */
-    //You have to save the modification in db 
-    
-    
-    //another way 
-    let selectedproduct= await prodotto.findOne({where: { id : id}})
-    if(selectedproduct===null)
-        return res.send("not found")
-    selectedproduct.set({ nome : nName, prezzo : nPrezzo})
-    await selectedproduct.save(); //Important, otherwise you don't change the product status in db
-    
-    res.send(selectedproduct) //I send back the current product
+    res.send("edited")
 })
 
-//start application
+//cose che non so
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
     console.log("Listening on " + port);

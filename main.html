@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
     <body>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
         <h1>bel titolo</h1>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        
         <p id="mod">
             <button type="button" onclick="vis()">Visualizza</button><br><br>
             <button type="button" onclick="loadDoc(0)">Aggiungi</button><br><br>
@@ -31,54 +33,41 @@
             }
 
             function add() {
-              sendProduct({"name":document.getElementById("name").value,"prezzo": document.getElementById("prezzo").value}) 
-                }
-            
-            function sendProduct(data){
                 axios.post('/create', {  //data part of HTTP request
-                name: data.name,
-                prezzo: data.prezzo
-              })
-              .then(function (response) { //used to manage async request, otherwise you can use await axios.post(...)
-                console.log(response);
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
-                }
+                name: document.getElementById("name").value,
+                prezzo: document.getElementById("prezzo").value
+                })
+                .then(function (response) { //used to manage async request, otherwise you can use await axios.post(...)
+                    document.getElementById("res").innerHTML = response.data;
+                })
+            }
             
             function dele() {
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200)
-                    document.getElementById("res").innerHTML = this.responseText;
-                };
-                xhttp.open("DELETE", "/" + document.getElementById("id").value, true);
-                xhttp.send();
+                let id = document.getElementById("id").value
+                axios.delete('/' + id , {})
+                .then(function (response) {
+                    document.getElementById("res").innerHTML = response.data;
+                })
             }
 
             function mod() {
                 let id = document.getElementById("id").value
-                let name = document.getElementById("name").value
-                let prezzo = document.getElementById("prezzo").value
-                
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200)
-                    document.getElementById("res").innerHTML = this.responseText;
-                };
-                xhttp.open("PUT", "/edit/" + id + "?name=" + name + "&prezzo=" + prezzo, true);
-                xhttp.send();
+                axios.put('/edit/' + id ,null, {
+                    params: {
+                        name : document.getElementById("name").value,
+                        prezzo : document.getElementById("prezzo").value
+                    }
+                })
+                .then(function (response) {
+                    document.getElementById("res").innerHTML = response.data;
+                })
             }
 
             function vis() {
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200)
-                    document.getElementById("res").innerHTML = this.responseText;
-                };
-                xhttp.open("GET", "/", true);
-                xhttp.send();
+                axios.get('/', {})
+                .then(function (response) {
+                    document.getElementById("res").innerHTML = JSON.stringify(response.data);
+                })
             }
         </script>
     </body>
