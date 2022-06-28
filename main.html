@@ -5,37 +5,18 @@
 
         <h1>bel titolo</h1>
         
-        <p id="mod">
-            <button type="button" onclick="vis()">Visualizza</button><br><br>
-            <button type="button" onclick="loadDoc(0)">Aggiungi</button><br><br>
-            <button type="button" onclick="loadDoc(1)">Elimina</button><br><br>
-            <button type="button" onclick="loadDoc(2)">Modifica</button><br><br>
-        </p>
-        
-        <p>
-            <button type="button" onclick="loadDoc(3)">indrio</button>
-        </p>
+        <button type="button" onclick="vis()">Visualizza</button><br><br>
+        <button type="button" onclick="window.location.href='/add';">Aggiungi</button><br><br>
+        <button type="button" onclick="window.location.href='/del';">Elimina</button><br><br>
+        <button type="button" onclick="window.location.href='/mod';">Modifica</button><br><br>
         
         <p id="res"></p>
 
         <script>
-            //non sapevo dove mettere le diverse "pagine" su cui lavorare
-            let a = ["<h1>Aggiungi un elemento</h1><label>name:</label><input type=\"text\" id=\"name\"><br><br><label>prezzo:</label><input type=\"text\" id=\"prezzo\"><br><br><button type=\"button\" onclick=\"add()\">Aggiungi</button>",
-                    "<h1>Elimina un elemento</h1><label>id:</label><input type=\"text\" id=\"id\"><br><br><button type=\"button\" onclick=\"dele()\">Elimina</button>",
-                    "<h1>Modifica un elemento</h1><label>id da modificare:</label><input type=\"text\" id=\"id\"><br><br><label>nuovo name:</label><input type=\"text\" id=\"name\"><br><br><label>nuovo prezzo:</label><input type=\"text\" id=\"prezzo\"><br><br><button type=\"button\" onclick=\"mod()\">Modifica</button>",
-                    "<button type=\"button\" onclick=\"vis()\">Visualizza</button><br><br><button type=\"button\" onclick=\"loadDoc(0)\">Aggiungi</button><br><br><button type=\"button\" onclick=\"loadDoc(1)\">Elimina</button><br><br><button type=\"button\" onclick=\"loadDoc(2)\">Modifica</button><br><br>"
-            ]
-            
-            //e con l'indice dell'array le richiamo per metterle sul primo <p>
-            function loadDoc(x) {
-                    document.getElementById("mod").innerHTML = a[x];
-                    document.getElementById("res").innerHTML = "";
-            }
-
             function add() {
                 axios.post('/create', {  //data part of HTTP request
-                name: document.getElementById("name").value,
-                prezzo: document.getElementById("prezzo").value
+                    name: document.getElementById("name").value,
+                    prezzo: document.getElementById("prezzo").value
                 })
                 .then(function (response) { //used to manage async request, otherwise you can use await axios.post(...)
                     document.getElementById("res").innerHTML = response.data;

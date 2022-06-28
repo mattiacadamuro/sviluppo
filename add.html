@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html>
-<body>
+  <body>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<h1>Aggiungi un elemento</h1>
+    <h1>Aggiungi un elemento</h1>
 
-<label>name:</label>
-<input type="text" id="name"><br><br>
-<label>prezzo:</label>
-<input type="text" id="prezzo"><br><br>
-<button type="button" onclick="loadDoc()">Aggiungi</button>
+    <label >name:</label>
+    <input type="text" id="name"><br><br>
+    <label >prezzo:</label>
+    <input type="text" id="prezzo"><br><br>
+    <button type="button" onclick="loadDoc()">Aggiungi</button>
 
-<p id="demo"></p>
+    <p>
+      <button type="button" onclick="window.location.href='/main';">indrio</button>
+    </p>
 
-<script>
-  function loadDoc() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200)
-      document.getElementById("demo").innerHTML = this.responseText;
-    };
-    xhttp.open("POST", "/create", true);
-    xhttp.setRequestHeader("name", document.getElementById("name").value);
-    xhttp.setRequestHeader("prezzo", document.getElementById("prezzo").value);
-    xhttp.send();
-  }
-  </script>
-</body>
+    <p id="res"></p>
+
+    <script>
+      function loadDoc(){
+        axios.post('/create', {  //data part of HTTP request
+          name: document.getElementById("name").value,
+          prezzo: document.getElementById("prezzo").value
+        })
+        .then(function (response) { //used to manage async request, otherwise you can use await axios.post(...)
+          document.getElementById("res").innerHTML = response.data;
+        })
+      }
+    </script>
+  </body>
 </html>

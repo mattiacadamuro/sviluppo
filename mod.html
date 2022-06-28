@@ -1,33 +1,37 @@
 <!DOCTYPE html>
 <html>
-<body>
+  <body>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<h1>Modifica un elemento</h1>
+    <h1>Modifica un elemento</h1>
 
-<label>id da modificare:</label>
-<input type="text" id="id"><br><br>
-<label>nuovo name:</label>
-<input type="text" id="name"><br><br>
-<label>nuovo prezzo:</label>
-<input type="text" id="prezzo"><br><br>
-<button type="button" onclick="loadDoc()">Modifica</button>
+    <label>id da modificare:</label>
+    <input type="text" id="id"><br><br>
+    <label>nuovo name:</label>
+    <input type="text" id="name"><br><br>
+    <label>nuovo prezzo:</label>
+    <input type="text" id="prezzo"><br><br>
+    <button type="button" onclick="loadDoc()">Modifica</button>
 
-<p id="demo"></p>
+    <p>
+      <button type="button" onclick="window.location.href='/main';">indrio</button>
+    </p>
 
-<script>
-  function loadDoc() {
-    let id = document.getElementById("id").value
-    let name = document.getElementById("name").value
-    let prezzo = document.getElementById("prezzo").value
-                
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-  if (this.readyState == 4 && this.status == 200)
-    document.getElementById("demo").innerHTML = this.responseText;
-  };
-  xhttp.open("PUT", "/edit/" + id + "?name=" + name + "&prezzo=" + prezzo, true);
-  xhttp.send();
-  }
-  </script>
-</body>
+    <p id="res"></p>
+
+    <script>
+      function loadDoc() {
+        let id = document.getElementById("id").value
+        axios.put('/edit/' + id ,null, {
+          params: {
+            name : document.getElementById("name").value,
+            prezzo : document.getElementById("prezzo").value
+          }
+        })
+        .then(function (response) {
+          document.getElementById("res").innerHTML = response.data;
+        })
+      }
+    </script>
+  </body>
 </html>

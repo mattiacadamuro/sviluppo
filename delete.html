@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html>
-<body>
+  <body>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<h1>Elimina un elemento</h1>
+    <h1>Elimina un elemento</h1>
+      
+    <label>id:</label>
+    <input type="text" id="id"><br><br>
+    <button type="button" onclick="loadDoc()">Elimina</button>
 
-<label>id:</label>
-<input type="text" id="id"><br><br>
-<button type="button" onclick="loadDoc()">Elimina</button>
+    <p>
+      <button type="button" onclick="window.location.href='/main';">indrio</button>
+    </p>
 
-<p id="demo"></p>
+    <p id="res"></p>
 
-<script>
-  function loadDoc() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200)
-      document.getElementById("demo").innerHTML = this.responseText;
-    };
-    xhttp.open("DELETE", "/" + document.getElementById("id").value, true);
-    xhttp.send();
-  }
-</script>
-</body>
+    <script>
+      function loadDoc() {
+        let id = document.getElementById("id").value
+        axios.delete('/' + id , {})
+        .then(function (response) {
+          document.getElementById("res").innerHTML = response.data;
+        })
+      }
+    </script>
+  </body>
 </html>
