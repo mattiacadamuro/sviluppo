@@ -18,7 +18,7 @@
     <script>
       function loadDoc() {
         let id = document.getElementById("id").value;
-        axios.delete('/' + id, {})
+        axios.delete('/prodotto/' + id, {})
         .then(function (response) {
           document.getElementById("res").innerHTML = response.data;
         })

@@ -14,7 +14,7 @@
 
         <script>
             function vis() {
-                axios.get('/', {})
+                axios.get('prodotto/', {})
                 .then(function (response) {
                     document.getElementById("res").innerHTML = JSON.stringify(response.data);
                 })

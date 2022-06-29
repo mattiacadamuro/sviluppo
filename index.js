@@ -94,7 +94,7 @@ app.get("/ok", function(req,res){
 
 
 //crea un prodotto con dei dati specifici
-app.post("/create", function(req,res){
+app.post("/prodotto/create", function(req,res){
     const uName = req.body.name
     const uPrezzo = req.body.prezzo
 
@@ -104,7 +104,7 @@ app.post("/create", function(req,res){
 })
 
 //cancella un prodotto
-app.delete('/:id', function(req, res){
+app.delete('/prodotto/:id', function(req, res){
     let id = req.params.id
 
     prodotto.destroy({
@@ -116,14 +116,14 @@ app.delete('/:id', function(req, res){
 })
 
 //restituisce tutto il db
-app.get('/', async (req, res) => {
+app.get('/prodotto/', async (req, res) => {
     const a = await sequelize.query("SELECT MAX(ID) FROM prodotto")
     console.log(a[0])
 
     res.send(await prodotto.findAll())
 })
 
-app.get('/:id', async (req, res) => {
+app.get('/prodotto/:id', async (req, res) => {
     const id = req.params.id
 
     const rows= await prodotto.findAll({
@@ -135,7 +135,7 @@ app.get('/:id', async (req, res) => {
 })
 
 //edit specifico prodotto
-app.put('/edit/:id', async(req, res) => {
+app.put('/prodotto/edit/:id', async(req, res) => {
     const id = req.params.id
     const nName = req.query.name
     const nPrezzo = req.query.prezzo
