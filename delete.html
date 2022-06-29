@@ -4,7 +4,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <h1>Elimina un elemento</h1>
-      
+
     <label>id:</label>
     <input type="text" id="id"><br><br>
     <button type="button" onclick="loadDoc()">Elimina</button>
@@ -17,8 +17,8 @@
 
     <script>
       function loadDoc() {
-        let id = document.getElementById("id").value
-        axios.delete('/' + id , {})
+        let id = document.getElementById("id").value;
+        axios.delete('/' + id, {})
         .then(function (response) {
           document.getElementById("res").innerHTML = response.data;
         })

@@ -23,16 +23,16 @@ const sequelize1 = new Sequelize('persone', 'root', '', {
 const prodotto = sequelize.define('prodotto', {
     // Model attributes are defined here
     id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
+        type: DataTypes.INTEGER,
+        primaryKey: true,
     },
     nome: {
-      type: DataTypes.STRING,
-      allowNull: false
+        type: DataTypes.STRING,
+        allowNull: false
     },
     prezzo: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 }, {
     tableName: 'prodotto',
@@ -43,28 +43,28 @@ const prodotto = sequelize.define('prodotto', {
 const persona = sequelize1.define('persona', {
     // Model attributes are defined here
     id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
+        type: DataTypes.INTEGER,
+        primaryKey: true,
     },
     nome: {
-      type: DataTypes.STRING,
-      allowNull: false
+        type: DataTypes.STRING,
+        allowNull: false
     },
     cognome: {
         type: DataTypes.STRING,
-      allowNull: false
+        allowNull: false
     },
     datanascita: {
         type: DataTypes.DATE,
-      allowNull: false
+        allowNull: false
     },
     createdAt: {
         type: DataTypes.DATE,
-      allowNull: false
+        allowNull: false
     },
     updatedAt: {
         type: DataTypes.DATE,
-      allowNull: false
+        allowNull: false
     }
 }, {
     tableName: 'persona',

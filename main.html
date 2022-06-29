@@ -3,7 +3,7 @@
     <body>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-        <h1>bel titolo</h1>
+        <h1>GESTIONE PRODOTTI</h1>
         
         <button type="button" onclick="vis()">Visualizza</button><br><br>
         <button type="button" onclick="window.location.href='/add';">Aggiungi</button><br><br>
@@ -13,37 +13,6 @@
         <p id="res"></p>
 
         <script>
-            function add() {
-                axios.post('/create', {  //data part of HTTP request
-                    name: document.getElementById("name").value,
-                    prezzo: document.getElementById("prezzo").value
-                })
-                .then(function (response) { //used to manage async request, otherwise you can use await axios.post(...)
-                    document.getElementById("res").innerHTML = response.data;
-                })
-            }
-            
-            function dele() {
-                let id = document.getElementById("id").value
-                axios.delete('/' + id , {})
-                .then(function (response) {
-                    document.getElementById("res").innerHTML = response.data;
-                })
-            }
-
-            function mod() {
-                let id = document.getElementById("id").value
-                axios.put('/edit/' + id ,null, {
-                    params: {
-                        name : document.getElementById("name").value,
-                        prezzo : document.getElementById("prezzo").value
-                    }
-                })
-                .then(function (response) {
-                    document.getElementById("res").innerHTML = response.data;
-                })
-            }
-
             function vis() {
                 axios.get('/', {})
                 .then(function (response) {

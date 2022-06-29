@@ -21,8 +21,8 @@
 
     <script>
       function loadDoc() {
-        let id = document.getElementById("id").value
-        axios.put('/edit/' + id ,null, {
+        let id = document.getElementById("id").value;
+        axios.put('/edit/' + id, null, {
           params: {
             name : document.getElementById("name").value,
             prezzo : document.getElementById("prezzo").value
