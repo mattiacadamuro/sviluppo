@@ -2,36 +2,53 @@
 <html>
   <body>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
-    <h1>Modifica un elemento</h1>
+    <div id="app">
+      <h1>Modifica un elemento</h1>
 
-    <label>id da modificare:</label>
-    <input type="text" id="id"><br><br>
-    <label>nuovo name:</label>
-    <input type="text" id="name"><br><br>
-    <label>nuovo prezzo:</label>
-    <input type="text" id="prezzo"><br><br>
-    <button type="button" onclick="loadDoc()">Modifica</button>
+      <label>id da modificare:</label>
+      <input type="text" id="id"><br><br>
+      <label>nuovo name:</label>
+      <input type="text" id="name"><br><br>
+      <label>nuovo prezzo:</label>
+      <input type="text" id="prezzo"><br><br>
+      <button type="button" @click="loadDoc">Modifica</button>
 
-    <p>
-      <button type="button" onclick="window.location.href='/main';">indrio</button>
-    </p>
+      <p>
+        <button type="button" onclick="window.location.href='/main';">indrio</button>
+      </p>
 
-    <p id="res"></p>
+      {{ res }}
+    </div>
 
     <script>
-      function loadDoc() {
-        let id = document.getElementById("id").value;
-        axios.put('/prodotto/edit/' + id, null, {
-          params: {
-            name : document.getElementById("name").value,
-            prezzo : document.getElementById("prezzo").value
+
+      var app = new Vue({
+        el: '#app',
+        data: {
+          res : "ciao"
+        },
+        methods: {
+          loadDoc: function () {
+            let id = document.getElementById("id").value;
+            axios.put('/prodotto/edit/' + id, null, {
+              params: {
+                name : document.getElementById("name").value,
+                prezzo : document.getElementById("prezzo").value
+              }
+            })
+            .then(function (response) {
+              console.log(response.data)
+              this.res = response.data;
+              console.log(res)
+            })
           }
-        })
-        .then(function (response) {
-          document.getElementById("res").innerHTML = response.data;
-        })
-      }
+        },
+        mounted(){
+          
+        }
+      })
     </script>
   </body>
 </html>

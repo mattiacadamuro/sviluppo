@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <body>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-    <h1>Elimina un elemento</h1>
+<body>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-    <label>id:</label>
-    <input type="text" id="id"><br><br>
-    <button type="button" onclick="loadDoc()">Elimina</button>
+  <h1>Elimina un elemento</h1>
 
-    <p>
-      <button type="button" onclick="window.location.href='/main';">indrio</button>
-    </p>
+  <label>id:</label>
+  <input type="text" id="id"><br><br>
+  <button type="button" onclick="loadDoc()">Elimina</button>
 
-    <p id="res"></p>
+  <p>
+    <button type="button" onclick="window.location.href='/main';">indrio</button>
+  </p>
 
-    <script>
-      function loadDoc() {
-        let id = document.getElementById("id").value;
-        axios.delete('/prodotto/' + id, {})
+  <p id="res"></p>
+
+  <script>
+    function loadDoc() {
+      let id = document.getElementById("id").value;
+      axios.delete('/prodotto/' + id, {})
         .then(function (response) {
           document.getElementById("res").innerHTML = response.data;
         })
-      }
-    </script>
-  </body>
+    }
+  </script>
+</body>
+
 </html>
