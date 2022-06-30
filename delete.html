@@ -1,30 +1,39 @@
 <!DOCTYPE html>
 <html>
+  <body>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
-<body>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <div id="app">
+      <h1>Elimina un elemento</h1>
 
-  <h1>Elimina un elemento</h1>
+      <label>id:</label>
+      <input type="text" id="id"><br><br>
+      <button type="button" @click="loadDoc">Elimina</button>
 
-  <label>id:</label>
-  <input type="text" id="id"><br><br>
-  <button type="button" onclick="loadDoc()">Elimina</button>
+      <p>
+        <button type="button" onclick="window.location.href='/main';">indrio</button>
+      </p>
 
-  <p>
-    <button type="button" onclick="window.location.href='/main';">indrio</button>
-  </p>
+      {{ res }}
+    </div>
 
-  <p id="res"></p>
+    <script>
+      var app = new Vue({
+        el: '#app',
+        data: {
+          res: null
+        },
+        methods: {
+          loadDoc: async function () {
+            let id = document.getElementById("id").value;
+            let response = await axios.delete('/prodotto/' + id, {})
 
-  <script>
-    function loadDoc() {
-      let id = document.getElementById("id").value;
-      axios.delete('/prodotto/' + id, {})
-        .then(function (response) {
-          document.getElementById("res").innerHTML = response.data;
-        })
-    }
-  </script>
-</body>
+            this.res = response.data;
+          }
+        }
+      })
+    </script>
+  </body>
 
 </html>

@@ -2,23 +2,33 @@
 <html>
     <body>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
-        <h1>GESTIONE PRODOTTI</h1>
-        
-        <button type="button" onclick="vis()">Visualizza</button><br><br>
-        <button type="button" onclick="window.location.href='/add';">Aggiungi</button><br><br>
-        <button type="button" onclick="window.location.href='/del';">Elimina</button><br><br>
-        <button type="button" onclick="window.location.href='/mod';">Modifica</button><br><br>
-        
-        <p id="res"></p>
+        <div id="app">
+            <h1>GESTIONE PRODOTTI</h1>
+            
+            <button type="button" @click="vis">Visualizza</button><br><br>
+            <button type="button" onclick="window.location.href='/add';">Aggiungi</button><br><br>
+            <button type="button" onclick="window.location.href='/del';">Elimina</button><br><br>
+            <button type="button" onclick="window.location.href='/mod';">Modifica</button><br><br>
 
+            {{ res }}
+        </div>
+        
         <script>
-            function vis() {
-                axios.get('prodotto/', {})
-                .then(function (response) {
-                    document.getElementById("res").innerHTML = JSON.stringify(response.data);
-                })
-            }
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    res: null
+                },
+                methods: {
+                    vis: async function () {
+                        let response = await axios.get('prodotto/', {})
+
+                        this.res = JSON.stringify(response.data);
+                    }
+                }
+            })
         </script>
     </body>
 </html>

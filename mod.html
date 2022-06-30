@@ -13,7 +13,7 @@
       <input type="text" id="name"><br><br>
       <label>nuovo prezzo:</label>
       <input type="text" id="prezzo"><br><br>
-      <button type="button" @click="loadDoc2">Modifica</button>
+      <button type="button" @click="loadDoc">Modifica</button>
 
       <p>
         <button type="button" onclick="window.location.href='/main';">indrio</button>
@@ -23,28 +23,13 @@
     </div>
 
     <script>
-
       var app = new Vue({
         el: '#app',
         data: {
-          res : "ciao"
+          res : null
         },
         methods: {
-          loadDoc: function () {
-            let id = document.getElementById("id").value;
-            axios.put('/prodotto/edit/' + id, null, {
-              params: {
-                name : document.getElementById("name").value,
-                prezzo : document.getElementById("prezzo").value
-              }
-            })
-            .then(function (response) {
-              console.log(response.data)
-              this.res = response.data;
-              console.log(res)
-            })
-          },
-          loadDoc2: async function () {
+          loadDoc: async function () {
             let id = document.getElementById("id").value;
             let response = await axios.put('/prodotto/edit/' + id, null, {
               params: {
@@ -52,12 +37,9 @@
                 prezzo : document.getElementById("prezzo").value
               }
             })
+
             this.res = response.data;
-          },
-          
-        },
-        mounted(){
-          
+          }
         }
       })
     </script>

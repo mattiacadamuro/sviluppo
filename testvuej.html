@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue-router"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" :value="message+' '+urlInviareMenu">
+        <h1>{{ message }}</h1>
+        <h1>{{prova[0]}}</h1>
+        <h1>{{prova[1]}}</h1>
+        <button v-on:click="reverseMessage">Reverse Message</button>
+        <li v-for="todo in todos">
+            <h1>{{todo.text}}</h1>
+            ha id {{todo.id}}
+          </li> 
+        <table >
+            <tr v-for="todo in todos">
+                <td>{{todo.id}}</td><td>{{todo.text}}</td>
+            </tr>
+        </table>
+        l'utente {{utente.data.id}}  di nome {{utente.data.label}}
+        <a :href="'https://www.vetrineonline.com/shop?id='+utente.data.id" >prova</a>
+    </div>
+</body>
+<script>
+    
+    var app = new Vue({
+    el: '#app',
+    data: {
+        message:'prova',
+        prova:[0,1,5],
+        todos:'',
+        utente:null,
+        urlInviareMenu:'https://wwww.iddadad',
+        datiOttenuti:null,
+        id_shop:null,
+        idallergene:null,
+        dati:null,
+        url:{
+            inserimentoMenu:'https://pdppio',
+            cancellazioneMenu:'https://cancalle'
+        },
+        header:{
+            headers: { 'content-type': 'application/json' ,'authorization':null}
+        }
+    },
+    methods: {
+    reverseMessage: function () {
+      this.message = this.message.split('').reverse().join('')
+    },
+    tuttidatiutete: async function(){
+        return axios('https://api.vetrineonline.com/model/shop/136');
+        },
+    creaMenu:async function(){
+        //prepari tutti i dati
+        return axios.post(this.url.inserimentoMenu, querystring.stringify({ foo: 'bar' }),this.header);
+        },
+    aggiornaMenu(){
+        //recuperi dati
+        return axios.put()
+    },        
+    main: async function(){
+        this.utente=await this.tuttidatiutete()
+        this.todos=[
+            { id:10,text: 'Learn JavaScript' },
+            { id:50,text: 'Learn Vue' },
+            { id:60,text: 'Build something awesome' }
+            ]
+        console.log(this.todos)
+    }
+    },
+    mounted(){
+        this.id_shop=params.query.id
+        this.header.headers.authorizaion=this.id_shop
+        this.main()
+        } 
+    })
+</script>
+</html>
