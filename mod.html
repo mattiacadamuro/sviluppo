@@ -8,11 +8,11 @@
       <h1>Modifica un elemento</h1>
 
       <label>id da modificare:</label>
-      <input type="text" id="id"><br><br>
+      <input type="text" v-model="id" placeholder="id"><br><br>
       <label>nuovo name:</label>
-      <input type="text" id="name"><br><br>
+      <input type="text" v-model="name" placeholder="nome"><br><br>
       <label>nuovo prezzo:</label>
-      <input type="text" id="prezzo"><br><br>
+      <input type="text" v-model="prezzo" placeholder="prezzo"><br><br>
       <button type="button" @click="loadDoc">Modifica</button>
 
       <p>
@@ -23,6 +23,10 @@
     </div>
 
     <script>
+      let id = null
+      let name = null
+      let prezzo = null
+
       var app = new Vue({
         el: '#app',
         data: {
@@ -30,11 +34,10 @@
         },
         methods: {
           loadDoc: async function () {
-            let id = document.getElementById("id").value;
             let response = await axios.put('/prodotto/edit/' + id, null, {
               params: {
-                name : document.getElementById("name").value,
-                prezzo : document.getElementById("prezzo").value
+                name,
+                prezzo
               }
             })
 

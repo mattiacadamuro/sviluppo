@@ -8,7 +8,7 @@
       <h1>Elimina un elemento</h1>
 
       <label>id:</label>
-      <input type="text" id="id"><br><br>
+      <input type="text" v-model="id" placeholder="id"><br><br>
       <button type="button" @click="loadDoc">Elimina</button>
 
       <p>
@@ -19,6 +19,8 @@
     </div>
 
     <script>
+      let id = null
+
       var app = new Vue({
         el: '#app',
         data: {
@@ -26,7 +28,6 @@
         },
         methods: {
           loadDoc: async function () {
-            let id = document.getElementById("id").value;
             let response = await axios.delete('/prodotto/' + id, {})
 
             this.res = response.data;
