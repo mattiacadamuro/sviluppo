@@ -31,7 +31,6 @@
         },
         methods: {
           loadDoc: async function () {
-            console.log(name+" "+prezzo)
             let response = await axios.post('/prodotto/create', {
               name,
               prezzo
