@@ -1,12 +1,10 @@
 const express = require('express')
 const app = express()
 const path = require('path')
-const bodyParser = require("body-parser");
 const { Sequelize, DataTypes } = require('sequelize');
 
 //app.use methods
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.json({extended: false}));
+app.use(express.json({ extended: false }));
 
 //connections to the database
 const sequelize = new Sequelize('testprodotti', 'root', '', {
@@ -71,45 +69,44 @@ const persona = sequelize1.define('persona', {
 });
 
 //routes
-app.get("/add", function(req, res) {
+app.get("/add", function (req, res) {
     res.sendFile(path.join(__dirname + '/add.html'));
 });
 
-app.get("/del", function(req, res) {
+app.get("/del", function (req, res) {
     res.sendFile(path.join(__dirname + '/delete.html'));
 });
 
-app.get("/mod", function(req, res) {
+app.get("/mod", function (req, res) {
     res.sendFile(path.join(__dirname + '/mod.html'));
 });
 
-app.get("/main", function(req, res) {
+app.get("/main", function (req, res) {
     res.sendFile(path.join(__dirname + '/main.html'));
 });
 
 //non ha molto senso ma "ok"
-app.get("/ok", function(req,res){
+app.get("/ok", function (req, res) {
     res.sendStatus(200)
 })
 
-
 //crea un prodotto con dei dati specifici
-app.post("/prodotto/create", function(req,res){
+app.post("/prodotto/create", function (req, res) {
     const uName = req.body.name
     const uPrezzo = req.body.prezzo
 
-    prodotto.create({nome: uName, prezzo: uPrezzo })
+    prodotto.create({ nome: uName, prezzo: uPrezzo })
 
     res.send("element added")
 })
 
 //cancella un prodotto
-app.delete('/prodotto/:id', function(req, res){
+app.delete('/prodotto/:id', function (req, res) {
     let id = req.params.id
 
     prodotto.destroy({
         where: {
-            ID : id
+            ID: id
         }
     })
     res.send("element canceled")
@@ -126,30 +123,29 @@ app.get('/prodotto/', async (req, res) => {
 app.get('/prodotto/:id', async (req, res) => {
     const id = req.params.id
 
-    const rows= await prodotto.findAll({
+    const rows = await prodotto.findAll({
         where: {
-            ID : id
+            ID: id
         }
     })
     res.send(rows)
 })
 
 //edit specifico prodotto
-app.put('/prodotto/edit/:id', async(req, res) => {
+app.put('/prodotto/edit/:id', async (req, res) => {
     const id = req.params.id
     const nName = req.query.name
     const nPrezzo = req.query.prezzo
 
-    await prodotto.update({ nome : nName, prezzo : nPrezzo}, {
+    await prodotto.update({ nome: nName, prezzo: nPrezzo }, {
         where: {
-            id : id
+            id: id
         }
     })
     res.send("edited")
 })
 
-//cose che non so
 var port = process.env.PORT || 3000;
-app.listen(port, function() {
+app.listen(port, function () {
     console.log("Listening on " + port);
 });

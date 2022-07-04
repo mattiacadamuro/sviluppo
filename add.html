@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html>
-  <body>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
-    <div id="app">
-      <h1>Aggiungi un elemento</h1>
+<body>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
-      <label >name:</label>
-      <input type="text" v-model="name" placeholder="nome"><br><br>
-      <label >prezzo:</label>
-      <input type="text" v-model="prezzo" placeholder="prezzo"><br><br>
-      <button type="button" @click="loadDoc">Aggiungi</button>
+  <div id="app">
+    <h1>Aggiungi un elemento</h1>
 
-      <p>
-        <button type="button" onclick="window.location.href='/main';">indrio</button>
-      </p>
+    <label>name:</label>
+    <input type="text" v-model="name" placeholder="nome"><br><br>
+    <label>prezzo:</label>
+    <input type="text" v-model="prezzo" placeholder="prezzo"><br><br>
+    <button type="button" @click="loadDoc">Aggiungi</button>
 
-      {{ res }}
-    </div>
+    <p>
+      <button type="button" onclick="window.location.href='/main';">indrio</button>
+    </p>
 
-    <script>
-      let name = null
-      let prezzo = null
+    {{ res }}
+  </div>
 
-      var app = new Vue({
-        el: '#app',
-        data: {
-          res : null
-        },
-        methods: {
-          loadDoc: async function () {
-            let response = await axios.post('/prodotto/create', {
-              name,
-              prezzo
-            })
-            
-            this.res = response.data;
-          }
+  <script>
+    let name = null
+    let prezzo = null
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        res: null
+      },
+      methods: {
+        loadDoc: async function () {
+          let response = await axios.post('/prodotto/create', {
+            name,
+            prezzo
+          })
+
+          this.res = response.data;
         }
-      })
-    </script>
-  </body>
+      }
+    })
+  </script>
+</body>
+
 </html>

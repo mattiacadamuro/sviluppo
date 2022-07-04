@@ -1,50 +1,52 @@
 <!DOCTYPE html>
 <html>
-  <body>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
-    <div id="app">
-      <h1>Modifica un elemento</h1>
+<body>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
-      <label>id da modificare:</label>
-      <input type="text" v-model="id" placeholder="id"><br><br>
-      <label>nuovo name:</label>
-      <input type="text" v-model="name" placeholder="nome"><br><br>
-      <label>nuovo prezzo:</label>
-      <input type="text" v-model="prezzo" placeholder="prezzo"><br><br>
-      <button type="button" @click="loadDoc">Modifica</button>
+  <div id="app">
+    <h1>Modifica un elemento</h1>
 
-      <p>
-        <button type="button" onclick="window.location.href='/main';">indrio</button>
-      </p>
+    <label>id da modificare:</label>
+    <input type="text" v-model="id" placeholder="id"><br><br>
+    <label>nuovo name:</label>
+    <input type="text" v-model="name" placeholder="nome"><br><br>
+    <label>nuovo prezzo:</label>
+    <input type="text" v-model="prezzo" placeholder="prezzo"><br><br>
+    <button type="button" @click="loadDoc">Modifica</button>
 
-      {{ res }}
-    </div>
+    <p>
+      <button type="button" onclick="window.location.href='/main';">indrio</button>
+    </p>
 
-    <script>
-      let id = null
-      let name = null
-      let prezzo = null
+    {{ res }}
+  </div>
 
-      var app = new Vue({
-        el: '#app',
-        data: {
-          res : null
-        },
-        methods: {
-          loadDoc: async function () {
-            let response = await axios.put('/prodotto/edit/' + id, null, {
-              params: {
-                name,
-                prezzo
-              }
-            })
+  <script>
+    let id = null
+    let name = null
+    let prezzo = null
 
-            this.res = response.data;
-          }
+    var app = new Vue({
+      el: '#app',
+      data: {
+        res: null
+      },
+      methods: {
+        loadDoc: async function () {
+          let response = await axios.put('/prodotto/edit/' + id, null, {
+            params: {
+              name,
+              prezzo
+            }
+          })
+
+          this.res = response.data;
         }
-      })
-    </script>
-  </body>
+      }
+    })
+  </script>
+</body>
+
 </html>
