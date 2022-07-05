@@ -67,6 +67,8 @@ const sicurezza = sequelize.define('sicurezza', {
 app.post("/checklist", function (req, res) {
     const dati = req.body.dati
     const datiJSON = JSON.stringify(req.body.datiJSON)
+    const idCliente = req.body.idCliente
+    const idSoggetto = req.body.idSoggetto
 
     sicurezza.create({
         DATA : dati.DATA,
@@ -87,6 +89,8 @@ app.post("/checklist", function (req, res) {
 
 app.get('/checklist/:id', async (req, res) => {
     const id = req.params.id
+    const idCliente = req.body.idCliente
+    const idSoggetto = req.body.idSoggetto
 
     const rows = await sicurezza.findAll({
         where: {
@@ -100,6 +104,8 @@ app.put('/checklist/:id', async (req, res) => {
     const id = req.params.id
     const dati = req.body.dati
     const datiJSON = JSON.stringify(req.body.datiJSON)
+    const idCliente = req.body.idCliente
+    const idSoggetto = req.body.idSoggetto
 
     await sicurezza.update({ 
         DATA : dati.DATA,
